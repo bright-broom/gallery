@@ -6,11 +6,6 @@ export interface NavItem {
   href: string
 }
 
-export interface FeatureItem {
-  title: string
-  description: string
-}
-
 export interface SocialLink {
   name: string
   href: string
@@ -24,6 +19,18 @@ export interface LayoutProps {
 export interface SubscribeFormData {
   email: string
 }
+
+// メディアの型定義
+export interface Media {
+  id: string
+  alt: string
+  title: string
+  type: 'image'
+  src: string
+}
+
+// ソート順の定義
+export type SortOrder = 'newest' | 'oldest' | 'title'
 
 // Lucideアイコンの型定義
 export type IconType = LucideIcon

@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ギャラリーアプリケーション
 
-## Getting Started
+## アーキテクチャ概要
 
-First, run the development server:
+このアプリケーションは、効率的で保守性の高いギャラリー表示システムを実現するために、以下の設計原則に基づいて構築されています：
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### コンポーネント設計
+
+#### 1. メディア表示システム
+- **MediaCard**: 画像と動画の両方に対応する統一されたカードコンポーネント
+  - 共通のインターフェースで異なる種類のメディアを扱う
+  - レイアウトのアニメーションとインタラクションを統合
+  - `showTitle` プロパティによる柔軟な表示制御
+
+- **GalleryModal**: 高度なメディアビューアー
+  - 画像/動画の統合表示
+  - キーボードナビゲーション
+  - ジェスチャーベースの操作（スワイプ）
+  - プログレッシブローディング
+  - セキュアなiframeの実装（動画表示用）
+
+#### 2. アニメーションシステム
+- Framer Motionを使用した一貫性のあるアニメーション
+- パフォーマンスを考慮したアニメーション設定
+- 共有レイアウトアニメーション（SharedLayout）の実装
+
+### データフロー
+
+```
+App
+├── GalleryGrid (メディアグリッドの管理)
+│   ├── MediaCard (個別のメディア表示)
+│   └── GalleryModal (詳細ビュー)
+└── Hooks
+    ├── useGalleryNavigation (ナビゲーション制御)
+    └── useSubscribe (購読機能)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 型システム
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `MediaBase`: すべてのメディアタイプの基本インターフェース
+- `ImageMedia`/`VideoMedia`: 具体的なメディアタイプの定義
+- Union型による型安全性の確保
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### パフォーマンス最適化
 
-## Learn More
+1. **画像最適化**
+   - Lazy loading
+   - Progressive loading
+   - WebP形式の使用
 
-To learn more about Next.js, take a look at the following resources:
+2. **コード最適化**
+   - コンポーネントの統合（MediaCard）
+   - 不要な依存関係の削除
+   - 効率的な状態管理
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### セキュリティ対策
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **コンテンツセキュリティ**
+   - iframeのサンドボックス化
+   - 厳格なreferrer policy
+   - コンテンツの整合性チェック
 
-## Deploy on Vercel
+2. **データ保護**
+   - 型安全性による入力検証
+   - XSS対策
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 技術スタック
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **フレームワーク**: Next.js
+- **スタイリング**: TailwindCSS
+- **アニメーション**: Framer Motion
+- **コンポーネント**: Radix UI（厳選されたコンポーネントのみ使用）
+- **型システム**: TypeScript
+
+## 設計上の重要な決定
+
+1. **MediaCardの統合**
+   - 理由: コードの重複を削除し、保守性を向上
+   - 利点: 一貫性のある動作、簡潔なコードベース
+
+2. **モーダルシステムの統合**
+   - 理由: ユーザー体験の一貫性を確保
+   - 利点: コードの再利用性向上、バグの可能性低減
+
+3. **依存関係の最適化**
+   - 理由: パフォーマンスとメンテナンス性の向上
+   - 実施: 未使用のRadix UIコンポーネントを削除
+
+## 今後の展開
+
+1. パフォーマンス最適化
+   - 画像の最適化戦略の改善
+   - キャッシング戦略の実装
+
+2. アクセシビリティ
+   - ARIAラベルの完全な実装
+   - キーボードナビゲーションの強化
+
+3. テスト
+   - ユニットテストの追加
+   - E2Eテストの実装

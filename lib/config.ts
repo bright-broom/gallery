@@ -8,16 +8,11 @@ export const siteConfig = {
     { name: "Products", href: "#products" },
     { name: "Contact", href: "#contact" },
   ],
-  features: [
-    { title: "高速", description: "Next.js + Turbopackで超高速表示" },
-    { title: "柔軟", description: "コンポーネントベースで簡単拡張" },
-    { title: "モダン", description: "最新技術を活用した開発環境" },
-  ],
   socialLinks: [
-    { name: "Facebook", href: "#", icon: "Facebook" },
-    { name: "Twitter", href: "#", icon: "Twitter" },
-    { name: "Instagram", href: "https://www.instagram.com/aki.h_portfolio/", icon: "Instagram" },
-    { name: "LinkedIn", href: "#", icon: "Linkedin" },
+    { name: "Facebook", href: "https://www.facebook.com", icon: "Facebook" },
+    { name: "Twitter", href: "https://x.com/home", icon: "Twitter" },
+    { name: "Instagram", href: "https://www.instagram.com", icon: "Instagram" },
+    { name: "LinkedIn", href: "https://www.linkedin.com", icon: "Linkedin" },
   ],
 }
 
